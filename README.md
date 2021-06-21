@@ -1,0 +1,1 @@
+# jednoduchá web šablona
