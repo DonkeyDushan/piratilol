@@ -13,5 +13,6 @@ module.exports = {
   rules: {
     "linebreak-style": "off",
     quotes: ["warn", "double"],
+    "import/extensions": ["error", "always"],
   },
 };

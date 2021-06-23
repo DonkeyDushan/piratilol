@@ -1,6 +1,75 @@
 body {
     background: #f0f0f0;
-    font-family: Arial, Helvetica, sans-serif;
-    width: 1000px;
-    margin: 5% auto;
+    font-family: "Bebas Neue";
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1% auto;
+    overflow-x: hidden;
+}
+
+canvas {
+    /* border: 1px solid black; */
+}
+
+button {
+    font-family: "Bebas Neue";
+    font-size: 30px;
+    color: black;
+    padding: 10px;
+    margin: 10px;
+    background-color: #b5c83e;
+    border-color: #b5c83e;
+}
+
+button:hover:active {
+    background-color: #b5c83e;
+    border-color: #b5c83e;
+}
+
+button:hover {
+    background-color: #c8dd45;
+    border-color: #c8dd45;
+}
+
+.title {
+    text-align: center;
+    font-size: 40px;
+    color: black;
+}
+
+.image-container {
+    position: relative;
+    width: 800px;
+    height: 800px;
+}
+
+.image {
+    width: 100%;
+}
+
+.logo {
+    width: 20%;
+    position: absolute;
+    top: 20px;
+    right: 50px;
+    z-index: 1;
+}
+
+.image-text {
+    position: absolute;
+    bottom: 100px;
+    left: 100px;
+}
+
+@media only screen and (max-width: 800px) {
+    button {
+        font-size: 30px;
+        margin-top: -400px;
+    }
+    canvas {
+        transform: scale(0.44);
+        transform-origin: top;
+    }
+    .center {}
 }
