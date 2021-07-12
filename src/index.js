@@ -31,12 +31,6 @@ const getText = () => data[rand(data.length)];
 const getGenerator = () => generators[rand(generators.length)];
 
 const initImage = async (customText) => {
-  const createLink = () => {
-    const linkSave = document.getElementById("save");
-    linkSave.setAttribute("download", "PirStanKampan.png");
-    linkSave.setAttribute("href", canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
-  };
-
   const loadLogo = () => {
     const logo = new Image();
     logo.src = "logo2.png";
@@ -44,7 +38,9 @@ const initImage = async (customText) => {
       ctx.drawImage(logo, 525, 20);
       const linkSave = document.getElementById("save");
       linkSave.setAttribute("download", "PirStanKampan.png");
-      linkSave.setAttribute("href", canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
+      setTimeout(() => {
+        linkSave.setAttribute("href", canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
+      }, 500);
     });
   };
 
