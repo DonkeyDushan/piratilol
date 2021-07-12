@@ -38,7 +38,7 @@ const initImage = async (customText) => {
     logo.addEventListener("load", () => ctx.drawImage(logo, 525, 20));
   };
 
-  const imageData = await fetch("https://source.unsplash.com/800x800");
+  const imageData = await fetch("https://picsum.photos/800");
   const image = new Image();
   image.crossOrigin = "anonymous";
   image.src = imageData.url;

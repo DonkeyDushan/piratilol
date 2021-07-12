@@ -19,6 +19,11 @@ const data = [
   "na šikaně živnostníků se podílet nebudeme",
   "skutečně digitální stát, na co máme internet?",
   "pojďme zreformovat školství. od základů.",
-  "finance řízené podle plánu"];
+  "finance řízené podle plánu",
+  "vraťtme lesům jejich zdraví",
+  "1000 korun pro každého seniora z dotací Agrofertu. Ať si pan Babiš platí předvolební dárečky ze svého.",
+  "Máme už dost nekonečných korupčních kauz. Po volbách s nimi zatočíme.",
+  "Místo jednolitých polí pestrá krajina.",
+];
 
 export default data;
