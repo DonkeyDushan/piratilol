@@ -15,11 +15,17 @@
   <div class="picture-container">
     <canvas id="picture" width="800" height="800"></canvas>
   </div>
-  <button id="randomized">
-    náhodně vybrat skutečný text
-  </button>
-
-  <script src="script.js" type="module"></script>
+  <div class="input-container">
+    <button id="randomized">
+      náhodně vybrat text
+    </button>
+    <div class="my-input">
+      <input class="custom-text" id="customText">
+      <button id="submitCustomText">Vložit můj text</button>
+    </div>
+  </div>
+  <a id="save">Uložit</a>
+  <script src="src/index.js" type="module"></script>
 </body>
 
 </html>

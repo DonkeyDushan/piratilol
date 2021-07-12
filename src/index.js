@@ -14,10 +14,10 @@ const initFont = async () => {
 const splitter = (str, l) => {
   const strs = [];
   while (str.length > l) {
-    let pos = str.substring(0, l).lastIndexOf(' ');
+    let pos = str.substring(0, l).lastIndexOf(" ");
     pos = pos <= 0 ? l : pos;
     strs.push(str.substring(0, pos));
-    let i = str.indexOf(' ', pos) + 1;
+    let i = str.indexOf(" ", pos) + 1;
     if (i < pos || i > pos + l) i = pos;
     str = str.substring(i);
   }
@@ -28,11 +28,10 @@ const splitter = (str, l) => {
 const getText = () => {
   const rand = (n) => Math.floor(Math.random() * n);
   const txt = data[rand(data.length)];
-  const splitText = splitter(txt, 20);
-  return splitText.reverse();
+  return txt;
 };
 
-const initImage = async () => {
+const initImage = async (customText) => {
   const loadLogo = () => {
     const logo = new Image();
     logo.src = "logo2.png";
@@ -41,13 +40,14 @@ const initImage = async () => {
 
   const imageData = await fetch("https://source.unsplash.com/800x800");
   const image = new Image();
+  image.crossOrigin = "anonymous";
   image.src = imageData.url;
   image.addEventListener("load", () => {
     ctx.drawImage(image, 0, 0);
     loadLogo();
     let i = 0;
-    const text = getText();
-    console.log(text)
+    const unsplitText = customText ?? getText();
+    const text = splitter(unsplitText, 20).reverse();
     text.forEach((line) => {
       const x = 30;
       const y = 685;
@@ -60,12 +60,24 @@ const initImage = async () => {
       ctx.fillText(line, x + padding, y + padding - (i * lineHeight));
       i += 1;
     });
+
+    const linkSave = document.getElementById("save");
+    linkSave.setAttribute("download", "PirStanKampan.png");
+    linkSave.setAttribute("href", canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
   });
 };
 
 const buttonRandom = document.getElementById("randomized");
 buttonRandom.onclick = () => initImage();
 // buttonRandom.addEventListener("click", () => initImage);
+
+const customInput = document.getElementById("customText");
+const buttonCustom = document.getElementById("submitCustomText");
+buttonCustom.onclick = () => {
+  if (customInput.value) {
+    initImage(customInput.value);
+  }
+};
 
 initFont();
 initImage();
