@@ -1,4 +1,4 @@
-export const data = [
+export const claims = [
   "Mladým: víte, že dokážete rozhodnout volby?",
   "Hnutí ano prostě chce žít v minulosti bez perspektivy.",
   "Boj s korupcí, ne udávání lidí.",
@@ -37,4 +37,4 @@ export const generators = [
   { url: "https://source.unsplash.com/800x800/?angry", weight: 3 },
 ];
 
-export default data;
+export default claims;

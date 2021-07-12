@@ -1,4 +1,4 @@
-import { data, generators } from "./data.js";
+import { claims, generators } from "./data.js";
 
 const unrolledGenerators = generators.flatMap(({ url, weight }) => Array(weight).fill(url));
 
@@ -29,7 +29,7 @@ const splitter = (str, l) => {
 
 const rand = (n) => Math.floor(Math.random() * n);
 
-const getText = () => data[rand(data.length)];
+const getText = () => claims[rand(claims.length)];
 const getGenerator = () => unrolledGenerators[rand(unrolledGenerators.length)];
 
 const initImage = async (customText) => {
@@ -41,26 +41,15 @@ const initImage = async (customText) => {
       const linkSave = document.getElementById("save");
       linkSave.setAttribute("download", "PirStanKampan.png");
       setTimeout(() => {
-        if (/* window.innerWidth < 800 */false) { // nefunguje v safari
-          linkSave.onclick = () => window.open(canvas.toDataURL("image/png"));
-        } else {
-          linkSave.setAttribute("href", canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
-        }
+        linkSave.setAttribute("href", canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
       }, 500);
     });
   };
 
   const imageData = await fetch(getGenerator());
-  let url;
-  try {
-    const dataJson = await imageData.json();
-    [url] = Object.values(dataJson);
-  } catch {
-    url = imageData.url;
-  }
   const image = new Image();
   image.crossOrigin = "anonymous";
-  image.src = url;
+  image.src = imageData.url;
   image.addEventListener("load", () => {
     ctx.drawImage(image, 0, 0);
     loadLogo();
