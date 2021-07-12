@@ -2,7 +2,7 @@ import data from "./data.js";
 
 const canvas = document.getElementById("picture");
 const ctx = canvas.getContext("2d");
-const font = new FontFace("Bebas Neue", "url(/fonts/BebasNeue-Bold.ttf)");
+const font = new FontFace("Bebas Neue", "url(fonts/BebasNeue-Bold.ttf)");
 const fontSize = 60;
 
 const initFont = async () => {
