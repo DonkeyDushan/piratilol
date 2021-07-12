@@ -41,7 +41,7 @@ const initImage = async (customText) => {
       const linkSave = document.getElementById("save");
       linkSave.setAttribute("download", "PirStanKampan.png");
       setTimeout(() => {
-        if (window.innerWidth < 800) {
+        if (/* window.innerWidth < 800 */false) { // nefunguje v safari
           linkSave.onclick = () => window.open(canvas.toDataURL("image/png"));
         } else {
           linkSave.setAttribute("href", canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
