@@ -1,5 +1,7 @@
 import { data, generators } from "./data.js";
 
+const unrolledGenerators = generators.flatMap(({ url, weight }) => Array(weight).fill(url));
+
 const canvas = document.getElementById("picture");
 const ctx = canvas.getContext("2d");
 const font = new FontFace("Bebas Neue", "url(fonts/BebasNeue-Bold.ttf)");
@@ -28,7 +30,7 @@ const splitter = (str, l) => {
 const rand = (n) => Math.floor(Math.random() * n);
 
 const getText = () => data[rand(data.length)];
-const getGenerator = () => generators[rand(generators.length)];
+const getGenerator = () => unrolledGenerators[rand(unrolledGenerators.length)];
 
 const initImage = async (customText) => {
   const loadLogo = () => {
