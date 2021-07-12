@@ -21,7 +21,7 @@ a {
     font-family: "Bebas Neue";
     font-size: 30px;
     color: white;
-    padding: 10px 25px;
+    padding: 10px 25px 6px 25px;
     margin: 10px;
     background-color: #000000;
     border-style: hidden;
@@ -36,7 +36,7 @@ button {
     font-family: "Bebas Neue";
     font-size: 30px;
     color: black;
-    padding: 10px;
+    padding: 10px 10px 6px 10px;
     margin: 10px;
     background-color: #b5c83e;
     border-style: hidden;

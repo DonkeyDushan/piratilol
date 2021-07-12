@@ -1,4 +1,4 @@
-const data = [
+export const data = [
   "Mladým: víte, že dokážete rozhodnout volby?",
   "Hnutí ano prostě chce žít v minulosti bez perspektivy.",
   "Boj s korupcí, ne udávání lidí.",
@@ -24,6 +24,16 @@ const data = [
   "1000 korun pro každého seniora z dotací Agrofertu. Ať si pan Babiš platí předvolební dárečky ze svého.",
   "Máme už dost nekonečných korupčních kauz. Po volbách s nimi zatočíme.",
   "Místo jednolitých polí pestrá krajina.",
+];
+
+export const generators = [
+  "https://picsum.photos/800",
+  "https://source.unsplash.com/800x800",
+  "https://source.unsplash.com/800x800/?cat",
+  "https://source.unsplash.com/800x800/?puppy",
+  "https://source.unsplash.com/800x800/?animal",
+  "https://source.unsplash.com/800x800/?angry",
+  "https://source.unsplash.com/800x800/?chicken",
 ];
 
 export default data;

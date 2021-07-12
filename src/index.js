@@ -1,4 +1,4 @@
-import data from "./data.js";
+import { data, generators } from "./data.js";
 
 const canvas = document.getElementById("picture");
 const ctx = canvas.getContext("2d");
@@ -25,11 +25,10 @@ const splitter = (str, l) => {
   return strs;
 };
 
-const getText = () => {
-  const rand = (n) => Math.floor(Math.random() * n);
-  const txt = data[rand(data.length)];
-  return txt;
-};
+const rand = (n) => Math.floor(Math.random() * n);
+
+const getText = () => data[rand(data.length)];
+const getGenerator = () => generators[rand(generators.length)];
 
 const initImage = async (customText) => {
   const loadLogo = () => {
@@ -37,11 +36,17 @@ const initImage = async (customText) => {
     logo.src = "logo2.png";
     logo.addEventListener("load", () => ctx.drawImage(logo, 525, 20));
   };
-
-  const imageData = await fetch("https://picsum.photos/800");
+  const imageData = await fetch(getGenerator());
+  let url;
+  try {
+    const dataJson = await imageData.json();
+    [url] = Object.values(dataJson);
+  } catch {
+    url = imageData.url;
+  }
   const image = new Image();
   image.crossOrigin = "anonymous";
-  image.src = imageData.url;
+  image.src = url;
   image.addEventListener("load", () => {
     ctx.drawImage(image, 0, 0);
     loadLogo();
@@ -69,7 +74,6 @@ const initImage = async (customText) => {
 
 const buttonRandom = document.getElementById("randomized");
 buttonRandom.onclick = () => initImage();
-// buttonRandom.addEventListener("click", () => initImage);
 
 const customInput = document.getElementById("customText");
 const buttonCustom = document.getElementById("submitCustomText");
