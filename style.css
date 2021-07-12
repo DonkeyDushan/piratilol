@@ -137,4 +137,8 @@ input:focus {
         align-items: center;
         width: 100%;
     }
+    a {
+        font-size: 20px;
+        cursor: pointer;
+    }
 }

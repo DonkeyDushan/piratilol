@@ -41,7 +41,11 @@ const initImage = async (customText) => {
       const linkSave = document.getElementById("save");
       linkSave.setAttribute("download", "PirStanKampan.png");
       setTimeout(() => {
-        linkSave.setAttribute("href", canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
+        if (window.innerWidth < 800) {
+          linkSave.onclick = () => window.open(canvas.toDataURL("image/png"));
+        } else {
+          linkSave.setAttribute("href", canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
+        }
       }, 500);
     });
   };
