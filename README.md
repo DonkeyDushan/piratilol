@@ -1,1 +1,1 @@
-# jednoduchá web šablona
+# generátor smutné kampaně
