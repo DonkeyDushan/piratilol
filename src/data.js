@@ -27,13 +27,15 @@ export const data = [
 ];
 
 export const generators = [
-  "https://picsum.photos/800",
+  /* "https://picsum.photos/800",
   "https://source.unsplash.com/800x800",
   "https://source.unsplash.com/800x800/?cat",
   "https://source.unsplash.com/800x800/?puppy",
   "https://source.unsplash.com/800x800/?animal",
   "https://source.unsplash.com/800x800/?angry",
   "https://source.unsplash.com/800x800/?chicken",
+  "https://source.unsplash.com/800x800/?communism", */
+  "https://source.unsplash.com/800x800/?pirate",
 ];
 
 export default data;

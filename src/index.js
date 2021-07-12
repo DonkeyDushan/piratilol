@@ -31,11 +31,23 @@ const getText = () => data[rand(data.length)];
 const getGenerator = () => generators[rand(generators.length)];
 
 const initImage = async (customText) => {
+  const createLink = () => {
+    const linkSave = document.getElementById("save");
+    linkSave.setAttribute("download", "PirStanKampan.png");
+    linkSave.setAttribute("href", canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
+  };
+
   const loadLogo = () => {
     const logo = new Image();
     logo.src = "logo2.png";
-    logo.addEventListener("load", () => ctx.drawImage(logo, 525, 20));
+    logo.addEventListener("load", () => {
+      ctx.drawImage(logo, 525, 20);
+      const linkSave = document.getElementById("save");
+      linkSave.setAttribute("download", "PirStanKampan.png");
+      linkSave.setAttribute("href", canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
+    });
   };
+
   const imageData = await fetch(getGenerator());
   let url;
   try {
@@ -65,10 +77,6 @@ const initImage = async (customText) => {
       ctx.fillText(line, x + padding, y + padding - (i * lineHeight));
       i += 1;
     });
-
-    const linkSave = document.getElementById("save");
-    linkSave.setAttribute("download", "PirStanKampan.png");
-    linkSave.setAttribute("href", canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
   });
 };
 
