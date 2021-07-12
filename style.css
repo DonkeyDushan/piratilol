@@ -17,7 +17,7 @@ canvas {
     object-fit: contain;
 }
 
-a {
+a.save {
     font-family: "Bebas Neue";
     font-size: 30px;
     color: white;
@@ -28,7 +28,7 @@ a {
     text-decoration: none;
 }
 
-a:hover {
+a.save:hover {
     color: #f9dc4d;
 }
 
@@ -99,13 +99,13 @@ input:focus {
     left: 100px;
 }
 
-.input-container {
+.button-container {
     display: flex;
     align-items: flex-end;
     justify-content: center;
 }
 
-.my-input {
+.input-container {
     display: flex;
     flex-direction: column;
 }
@@ -118,13 +118,13 @@ input:focus {
     .title {
         font-size: 40px;
     }
-    .input-container {
+    .picture-container {
+        margin-bottom: 0;
+    }
+    .button-container {
         width: 90%;
         flex-direction: column;
         align-items: center;
-    }
-    .picture-container {
-        margin-bottom: 0;
     }
     button {
         font-size: 20px;
@@ -133,12 +133,11 @@ input:focus {
     input {
         width: 100%;
     }
-    .my-input {
+    .input-container {
         align-items: center;
         width: 100%;
     }
-    a {
+    a.save {
         font-size: 20px;
-        cursor: pointer;
     }
 }

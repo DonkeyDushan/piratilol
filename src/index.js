@@ -71,7 +71,7 @@ const initImage = async (customText) => {
   });
 };
 
-const buttonRandom = document.getElementById("randomized");
+const buttonRandom = document.getElementById("randomize");
 buttonRandom.onclick = () => initImage();
 
 const customInput = document.getElementById("customText");
