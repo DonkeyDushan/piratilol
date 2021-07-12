@@ -24,6 +24,7 @@ export const data = [
   "1000 korun pro každého seniora z dotací Agrofertu. Ať si pan Babiš platí předvolební dárečky ze svého.",
   "Máme už dost nekonečných korupčních kauz. Po volbách s nimi zatočíme.",
   "Místo jednolitých polí pestrá krajina.",
+  "je čas vyrazit pomoci na jižní moravu!",
 ];
 
 export const generators = [
@@ -33,6 +34,7 @@ export const generators = [
   { url: "https://source.unsplash.com/800x800/?cat", weight: 1 },
   { url: "https://source.unsplash.com/800x800/?puppy", weight: 1 },
   { url: "https://source.unsplash.com/800x800/?chicken", weight: 1 },
+  { url: "https://source.unsplash.com/800x800/?angry", weight: 3 },
 ];
 
 export default data;
