@@ -50,7 +50,7 @@ const initImage = async (customText) => {
     loadLogo();
     const unsplitText = customText ?? pickRandom(claims);
     const lines = splitText(unsplitText, 20).reverse();
-    const fontSize = lines.length < 6 ? 60 : 40;
+    const fontSize = lines.length < 5 ? 60 : 40;
     ctx.font = `${fontSize}px 'Bebas Neue'`;
     lines.forEach((line, index) => {
       const x = 30;
