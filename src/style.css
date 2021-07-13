@@ -114,6 +114,17 @@ input:focus {
     margin: 0 10px;
 }
 
+.twitter {
+    font-size: 18px;
+}
+
+.bottom-text {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    text-align: center;
+    line-height: normal;
+}
+
 @media only screen and (max-width: 800px) {
     .title {
         font-size: 40px;
