@@ -18,7 +18,7 @@ const pickRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
 const canvas = document.getElementById("picture");
 const ctx = canvas.getContext("2d");
-const font = new FontFace("Bebas Neue", "url(fonts/BebasNeue-Bold.ttf)");
+const font = new FontFace("Bebas Neue", "url(/public/BebasNeue-Bold.ttf)");
 const fontSize = 60;
 
 const initFont = async () => {
@@ -32,7 +32,7 @@ const unrolledGenerators = generators.flatMap(({ url, weight }) => Array(weight)
 const initImage = async (customText) => {
   const loadLogo = () => {
     const logo = new Image();
-    logo.src = "logo2.png";
+    logo.src = "/public/logo.png";
     logo.addEventListener("load", () => {
       ctx.drawImage(logo, 525, 20);
       const linkSave = document.getElementById("save");
