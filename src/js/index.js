@@ -19,12 +19,10 @@ const pickRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
 const canvas = document.getElementById("picture");
 const ctx = canvas.getContext("2d");
 const font = new FontFace("Bebas Neue", "url(public/BebasNeue-Bold.ttf)");
-const fontSize = 60;
 
 const initFont = async () => {
   await font.load();
   document.fonts.add(font);
-  ctx.font = `${fontSize}px 'Bebas Neue'`;
 };
 
 const unrolledGenerators = generators.flatMap(({ url, weight }) => Array(weight).fill(url));
@@ -51,8 +49,10 @@ const initImage = async (customText) => {
     ctx.drawImage(image, 0, 0);
     loadLogo();
     const unsplitText = customText ?? pickRandom(claims);
-    const text = splitText(unsplitText, 20).reverse();
-    text.forEach((line, index) => {
+    const lines = splitText(unsplitText, 20).reverse();
+    const fontSize = lines.length < 6 ? 60 : 40;
+    ctx.font = `${fontSize}px 'Bebas Neue'`;
+    lines.forEach((line, index) => {
       const x = 30;
       const y = 685;
       const padding = 15;
