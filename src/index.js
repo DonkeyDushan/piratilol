@@ -18,7 +18,7 @@ const pickRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
 const canvas = document.getElementById("picture");
 const ctx = canvas.getContext("2d");
-const font = new FontFace("Bebas Neue", "url(/public/BebasNeue-Bold.ttf)");
+const font = new FontFace("Bebas Neue", "url(./BebasNeue-Bold.ttf)");
 const fontSize = 60;
 
 const initFont = async () => {
