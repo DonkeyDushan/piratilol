@@ -1,1 +1,0 @@
-# generátor smutné kampaně
