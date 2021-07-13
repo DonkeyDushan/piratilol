@@ -32,7 +32,7 @@ const unrolledGenerators = generators.flatMap(({ url, weight }) => Array(weight)
 const initImage = async (customText) => {
   const loadLogo = () => {
     const logo = new Image();
-    logo.src = "/public/logo.png";
+    logo.src = "public/logo.png";
     logo.addEventListener("load", () => {
       ctx.drawImage(logo, 525, 20);
       const linkSave = document.getElementById("save");
