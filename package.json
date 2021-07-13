@@ -5,7 +5,8 @@
   "main": "script.js",
   "scripts": {
     "dev": "snowpack dev",
-    "build": "gh-pages -d build"
+    "build": "snowpack build",
+    "deploy": "yarn build && gh-pages -d build && rm -r build/"
   },
   "author": "",
   "license": "ISC",
