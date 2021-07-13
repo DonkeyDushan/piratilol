@@ -4,8 +4,8 @@
   "description": "",
   "main": "script.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack serve --open --mode=development"
+    "dev": "webpack serve --open --mode=development",
+    "build": "gh-pages -d build"
   },
   "author": "",
   "license": "ISC",
