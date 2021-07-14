@@ -3,14 +3,11 @@ import { splitText, pickRandom } from "./helperFunctions.js";
 
 const unrolledGenerators = generators.flatMap(({ url, weight }) => Array(weight).fill(url));
 
-const getUnrolledGeneratorsWithKeywords = (keywords) => {
+const getUnrolledGeneratorsWithKeywords = (keyword) => {
   const out = [];
 
-  keywords.split(/, /).forEach((keyword) => {
-    generatorsWithKeywords.forEach((generator) => {
-      out.push({ url: generator.url.replace("[keyword]", keyword) });
-    });
-    out.push();
+  generatorsWithKeywords.forEach((generator) => {
+    out.push({ url: generator.url.replace("[keyword]", keyword), weight: 1 });
   });
 
   return out.flatMap(({ url, weight }) => Array(weight).fill(url));
@@ -22,11 +19,11 @@ logo.src = "public/logo.png";
 let currentImage = new Image();
 let currentText = "Test text";
 
-const rerollImage = async (keywords) => {
+const rerollImage = async (keyword) => {
   let imageData;
 
-  if (typeof keywords !== "undefined" && keywords.length) {
-    imageData = await fetch(pickRandom(getUnrolledGeneratorsWithKeywords(keywords)));
+  if (typeof keyword !== "undefined" && keyword.length) {
+    imageData = await fetch(pickRandom(getUnrolledGeneratorsWithKeywords(keyword)));
   } else {
     imageData = await fetch(pickRandom(unrolledGenerators));
   }
