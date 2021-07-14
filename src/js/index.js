@@ -58,6 +58,14 @@ const initFont = async () => {
   document.fonts.add(font);
 };
 
+const setFile = (file) => {
+  if (!file.type.startsWith("image/")) {
+    return;
+  }
+
+  imageReader.readAsDataURL(file);
+}; 
+
 canvas.addEventListener('dragover', ev => {
   if (!ev.dataTransfer) {
     return;
@@ -74,22 +82,11 @@ canvas.addEventListener('dragover', ev => {
 
 canvas.addEventListener('drop', ev => {
   ev.preventDefault();
-
-  if (!ev.dataTransfer) {
+  if (!ev.dataTransfer || ev.dataTransfer.files.length <= 0) {
     return;
   }
 
-  const files = ev.dataTransfer.files;
-  if (files.length <= 0) {
-    return;
-  }
-
-  const file = files[0];
-  if (typeof FileReader == "undefined" || !file.type.startsWith("image/")) {
-    return;
-  }
-
-  imageReader.readAsDataURL(file);
+  setFile(ev.dataTransfer.files[0]);
 });
 
 const unrolledGenerators = generators.flatMap(({ url, weight }) => Array(weight).fill(url));
@@ -152,6 +149,19 @@ buttonCustom.onclick = async () => {
     repaintImage();
   }
 };
+
+const inputCustomImg = document.getElementById("customImage");
+inputCustomImg.addEventListener("change", ev => {
+  ev.preventDefault();
+  if (ev.target.files.length <= 0) {
+    return;
+  }
+  setFile(ev.target.files[0]);
+});
+const buttonCustomImg = document.getElementById("customImageBtn");
+buttonCustomImg.addEventListener("click", () => {
+  inputCustomImg.click();
+});
 
 initFont();
 
