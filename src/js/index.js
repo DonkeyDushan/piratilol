@@ -1,5 +1,11 @@
 import { claims, generators } from "./data.js";
 
+const logo = new Image();
+logo.src = "public/logo.png";
+
+let currentImage = new Image();
+let currentText = "Test text";
+
 const splitText = (text, maxLineLength) => {
   const result = [];
   while (text.length > maxLineLength) {
@@ -14,6 +20,33 @@ const splitText = (text, maxLineLength) => {
   return result;
 };
 
+const rerollImage = async () => {
+  const imageData = await fetch(pickRandom(unrolledGenerators));
+
+  return new Promise((resolve) => {
+    let image = new Image();
+
+    image.addEventListener("load", ev => { 
+      currentImage = image;
+      resolve();
+    });
+
+    image.crossOrigin = "anonymous";
+    image.src = imageData.url;
+  });
+};
+
+const rerollText = () => {
+  currentText = pickRandom(claims);
+};
+
+const imageReader = new FileReader();
+imageReader.onload = ev => {
+  currentImage = new Image();
+  currentImage.src = ev.target.result;
+  repaintImage();
+};
+
 const pickRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
 const canvas = document.getElementById("picture");
@@ -25,57 +58,91 @@ const initFont = async () => {
   document.fonts.add(font);
 };
 
+canvas.addEventListener('dragover', ev => {
+  if (!ev.dataTransfer) {
+    return;
+  }
+
+  for (const item of ev.dataTransfer.items) {
+    if (item.type.startsWith("image/")) {
+      console.log("IMAGE!");
+      ev.preventDefault();
+      return;
+    }
+  }
+});
+
+canvas.addEventListener('drop', ev => {
+  ev.preventDefault();
+
+  if (!ev.dataTransfer) {
+    return;
+  }
+
+  const files = ev.dataTransfer.files;
+  if (files.length <= 0) {
+    return;
+  }
+
+  const file = files[0];
+  if (typeof FileReader == "undefined" || !file.type.startsWith("image/")) {
+    return;
+  }
+
+  imageReader.readAsDataURL(file);
+});
+
 const unrolledGenerators = generators.flatMap(({ url, weight }) => Array(weight).fill(url));
 
-const initImage = async (customText) => {
-  const loadLogo = () => {
-    const logo = new Image();
-    logo.src = "public/logo.png";
-    logo.addEventListener("load", () => {
-      ctx.drawImage(logo, 525, 20);
-      const linkSave = document.getElementById("save");
-      linkSave.setAttribute("download", "PirStanKampan.png");
-      setTimeout(() => {
-        linkSave.setAttribute("href", canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
-      }, 500);
-    });
-  };
-
+const repaintImage = async () => {
   const imageData = await fetch(pickRandom(unrolledGenerators));
-  const image = new Image();
-  image.crossOrigin = "anonymous";
-  image.src = imageData.url;
-  image.addEventListener("load", () => {
-    ctx.drawImage(image, 0, 0);
-    loadLogo();
-    const unsplitText = customText ?? pickRandom(claims);
-    const lines = splitText(unsplitText, 20).reverse();
-    const fontSize = lines.length < 5 ? 60 : 40;
-    ctx.font = `${fontSize}px 'Bebas Neue'`;
-    lines.forEach((line, index) => {
-      const x = 30;
-      const y = 685;
-      const padding = 15;
-      const lineHeight = padding + fontSize;
-      ctx.fillStyle = "#f9dc4d";
-      ctx.fillRect(x, y - (index * lineHeight), ctx.measureText(line).width + 2 * padding, lineHeight);
-      ctx.textBaseline = "top";
-      ctx.fillStyle = "black";
-      ctx.fillText(line, x + padding, y + padding - (index * lineHeight));
-    });
+  currentImage.src = imageData.url;
+
+  ctx.drawImage(currentImage, 0, 0);
+  ctx.drawImage(logo, 525, 20);
+
+  const unsplitText = currentText;
+  const lines = splitText(unsplitText, 20).reverse();
+  const fontSize = lines.length < 5 ? 60 : 40;
+  ctx.font = `${fontSize}px 'Bebas Neue'`;
+  lines.forEach((line, index) => {
+    const x = 30;
+    const y = 685;
+    const padding = 15;
+    const lineHeight = padding + fontSize;
+    ctx.fillStyle = "#f9dc4d";
+    ctx.fillRect(x, y - (index * lineHeight), ctx.measureText(line).width + 2 * padding, lineHeight);
+    ctx.textBaseline = "top";
+    ctx.fillStyle = "black";
+    ctx.fillText(line, x + padding, y + padding - (index * lineHeight));
   });
+
+  const linkSave = document.getElementById("save");
+  linkSave.setAttribute("download", "PirStanKampan.png");
+  setTimeout(() => {
+    linkSave.setAttribute("href", canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
+  }, 500);
 };
 
 const buttonRandom = document.getElementById("randomize");
-buttonRandom.onclick = () => initImage();
+buttonRandom.onclick = async () => {
+  rerollText();
+  await rerollImage();
+  repaintImage();
+}
 
 const inputCustom = document.getElementById("customText");
 const buttonCustom = document.getElementById("submitCustomText");
-buttonCustom.onclick = () => {
+buttonCustom.onclick = async () => {
   if (inputCustom.value) {
-    initImage(inputCustom.value);
+    currentText = inputCustom.value;
+    await rerollImage();
+    repaintImage();
   }
 };
 
 initFont();
-initImage();
+
+rerollText();
+rerollImage()
+  .then(() => repaintImage());
