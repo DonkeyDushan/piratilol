@@ -114,6 +114,12 @@ input:focus {
     margin: 0 10px;
 }
 
+.divider {
+    width: 300px;
+    size: 1px;
+    color: black;
+}
+
 .twitter {
     font-size: 18px;
 }
