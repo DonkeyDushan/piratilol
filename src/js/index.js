@@ -119,10 +119,10 @@ const repaintImage = async () => {
   }, 500);
 };
 
-const buttonRandom = document.getElementById("randomize");
+const buttonRandom = document.getElementById("randomizeText");
 buttonRandom.addEventListener("click", async () => {
+  document.getElementById("customText").value = "";
   rerollText();
-  await rerollImage();
   repaintImage();
 });
 
@@ -131,12 +131,6 @@ const buttonRandomImg = document.getElementById("randomize-img");
 buttonRandomImg.addEventListener("click",async () => {
   const imageKeywords = document.getElementById("imageKeywords").value;
   await rerollImage(imageKeywords);
-  repaintImage();
-});
-
-const buttonRandomText = document.getElementById("randomize");
-buttonRandomText.addEventListener("click", () => {
-  rerollText();
   repaintImage();
 });
 
