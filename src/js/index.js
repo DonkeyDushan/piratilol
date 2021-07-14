@@ -43,8 +43,8 @@ const rerollText = () => {
 const imageReader = new FileReader();
 imageReader.onload = ev => {
   currentImage = new Image();
+  currentImage.addEventListener("load", lev => repaintImage());
   currentImage.src = ev.target.result;
-  repaintImage();
 };
 
 const pickRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
@@ -95,10 +95,18 @@ canvas.addEventListener('drop', ev => {
 const unrolledGenerators = generators.flatMap(({ url, weight }) => Array(weight).fill(url));
 
 const repaintImage = async () => {
-  const imageData = await fetch(pickRandom(unrolledGenerators));
-  currentImage.src = imageData.url;
+  // clear to black (for transparent images)
+  ctx.fillStyle = "black";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+  // scale image to always fill the canvas
+  const scaleX = canvas.width / currentImage.width;
+  const scaleY = canvas.height / currentImage.height;
+  const scale = Math.max(scaleX, scaleY);
+  ctx.setTransform(scale, 0, 0, scale, 0, 0);
   ctx.drawImage(currentImage, 0, 0);
+
+  ctx.setTransform(); // reset so that everything else is normal size
   ctx.drawImage(logo, 525, 20);
 
   const unsplitText = currentText;
@@ -127,6 +135,11 @@ const repaintImage = async () => {
 const buttonRandom = document.getElementById("randomize");
 buttonRandom.onclick = async () => {
   rerollText();
+  repaintImage();
+}
+
+const buttonRandomImg = document.getElementById("randomize-img");
+buttonRandomImg.onclick = async () => {
   await rerollImage();
   repaintImage();
 }
@@ -136,7 +149,6 @@ const buttonCustom = document.getElementById("submitCustomText");
 buttonCustom.onclick = async () => {
   if (inputCustom.value) {
     currentText = inputCustom.value;
-    await rerollImage();
     repaintImage();
   }
 };
