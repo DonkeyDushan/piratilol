@@ -1,4 +1,4 @@
-import { claims, generators } from "./data.js";
+import { claims, generators, generatorsWithKeywords } from "./data.js";
 
 const logo = new Image();
 logo.src = "public/logo.png";
@@ -20,8 +20,14 @@ const splitText = (text, maxLineLength) => {
   return result;
 };
 
-const rerollImage = async () => {
-  const imageData = await fetch(pickRandom(unrolledGenerators));
+const rerollImage = async (keywords) => {
+  let imageData;
+
+  if (typeof keywords !== "undefined" && keywords.length) {
+    imageData = await fetch(pickRandom(getUnrolledGeneratorsWithKeywords(keywords)));
+  } else {
+    imageData = await fetch(pickRandom(unrolledGenerators));
+  }
 
   return new Promise((resolve) => {
     let image = new Image();
@@ -91,6 +97,19 @@ canvas.addEventListener('drop', ev => {
 
 const unrolledGenerators = generators.flatMap(({ url, weight }) => Array(weight).fill(url));
 
+const getUnrolledGeneratorsWithKeywords = (keywords) => {
+  const out = [];
+
+  keywords.split(/, /).forEach((keyword) => {
+    generatorsWithKeywords.forEach((generator) => {
+      out.push({ url: generator.url.replace("[keyword]", keyword) });
+    });
+    out.push();
+  });
+
+  return out.flatMap(({ url, weight }) => Array(weight).fill(url));
+}
+
 const repaintImage = async () => {
   // clear to black (for transparent images)
   ctx.fillStyle = "black";
@@ -137,7 +156,8 @@ buttonRandom.onclick = async () => {
 
 const buttonRandomImg = document.getElementById("randomize-img");
 buttonRandomImg.onclick = async () => {
-  await rerollImage();
+  const imageKeywords = document.getElementById("imageKeywords").value;
+  await rerollImage(imageKeywords);
   repaintImage();
 }
 

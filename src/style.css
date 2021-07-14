@@ -53,6 +53,20 @@ button:hover {
     border-color: #c8dd45;
 }
 
+.btn-secondary {
+    background-color: #f9dc4d;
+}
+
+.btn-secondary:hover:active {
+    background-color: #f9dc4d;
+    border-color: #f9dc4d;
+}
+
+.btn-secondary:hover {
+    background-color: #f9ef4d;
+    border-color: #f9ef4d;
+}
+
 input {
     padding: 12px 20px;
     height: 30px;
