@@ -1,32 +1,21 @@
 import { claims, generators } from "./data.js";
+import { splitText, pickRandom } from "./helperFunctions.js";
 
+const unrolledGenerators = generators.flatMap(({ url, weight }) => Array(weight).fill(url));
+
+const imageReader = new FileReader();
 const logo = new Image();
 logo.src = "public/logo.png";
-
 let currentImage = new Image();
 let currentText = "Test text";
-
-const splitText = (text, maxLineLength) => {
-  const result = [];
-  while (text.length > maxLineLength) {
-    let pos = text.substring(0, maxLineLength).lastIndexOf(" ");
-    pos = pos <= 0 ? maxLineLength : pos;
-    result.push(text.substring(0, pos));
-    let i = text.indexOf(" ", pos) + 1;
-    if (i < pos || i > pos + maxLineLength) i = pos;
-    text = text.substring(i);
-  }
-  result.push(text);
-  return result;
-};
 
 const rerollImage = async () => {
   const imageData = await fetch(pickRandom(unrolledGenerators));
 
   return new Promise((resolve) => {
-    let image = new Image();
+    const image = new Image();
 
-    image.addEventListener("load", ev => { 
+    image.addEventListener("load", () => {
       currentImage = image;
       resolve();
     });
@@ -39,15 +28,6 @@ const rerollImage = async () => {
 const rerollText = () => {
   currentText = pickRandom(claims);
 };
-
-const imageReader = new FileReader();
-imageReader.onload = ev => {
-  currentImage = new Image();
-  currentImage.addEventListener("load", lev => repaintImage());
-  currentImage.src = ev.target.result;
-};
-
-const pickRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
 const canvas = document.getElementById("picture");
 const ctx = canvas.getContext("2d");
@@ -64,32 +44,18 @@ const setFile = (file) => {
   }
 
   imageReader.readAsDataURL(file);
-}; 
+};
 
-canvas.addEventListener('dragover', ev => {
-  if (!ev.dataTransfer) {
+canvas.addEventListener("dragover", (e) => e.preventDefault());
+
+canvas.addEventListener("drop", (e) => {
+  e.preventDefault();
+  if (!e.dataTransfer || e.dataTransfer.files.length <= 0) {
     return;
   }
 
-  for (const item of ev.dataTransfer.items) {
-    if (item.type.startsWith("image/")) {
-      console.log("IMAGE!");
-      ev.preventDefault();
-      return;
-    }
-  }
+  setFile(e.dataTransfer.files[0]);
 });
-
-canvas.addEventListener('drop', ev => {
-  ev.preventDefault();
-  if (!ev.dataTransfer || ev.dataTransfer.files.length <= 0) {
-    return;
-  }
-
-  setFile(ev.dataTransfer.files[0]);
-});
-
-const unrolledGenerators = generators.flatMap(({ url, weight }) => Array(weight).fill(url));
 
 const repaintImage = async () => {
   // clear to black (for transparent images)
@@ -106,8 +72,7 @@ const repaintImage = async () => {
   ctx.setTransform(); // reset so that everything else is normal size
   ctx.drawImage(logo, 525, 20);
 
-  const unsplitText = currentText;
-  const lines = splitText(unsplitText, 20).reverse();
+  const lines = splitText(currentText, 20).reverse();
   const fontSize = lines.length < 5 ? 60 : 40;
   ctx.font = `${fontSize}px 'Bebas Neue'`;
   lines.forEach((line, index) => {
@@ -122,6 +87,12 @@ const repaintImage = async () => {
     ctx.fillText(line, x + padding, y + padding - (index * lineHeight));
   });
 
+  imageReader.addEventListener("load", (e) => {
+    currentImage = new Image();
+    currentImage.addEventListener("load", () => repaintImage());
+    currentImage.src = e.target.result;
+  });
+
   const linkSave = document.getElementById("save");
   linkSave.setAttribute("download", "PirStanKampan.png");
   setTimeout(() => {
@@ -132,14 +103,34 @@ const repaintImage = async () => {
 const buttonRandom = document.getElementById("randomize");
 buttonRandom.onclick = async () => {
   rerollText();
+  await rerollImage();
   repaintImage();
-}
+};
 
 const buttonRandomImg = document.getElementById("randomize-img");
 buttonRandomImg.onclick = async () => {
   await rerollImage();
   repaintImage();
-}
+};
+
+const buttonRandomText = document.getElementById("randomize-text");
+buttonRandomText.onclick = () => {
+  rerollText();
+  repaintImage();
+};
+
+const inputCustomImg = document.getElementById("customImage");
+inputCustomImg.addEventListener("change", (e) => {
+  e.preventDefault();
+  if (e.target.files.length <= 0) {
+    return;
+  }
+  setFile(e.target.files[0]);
+});
+const buttonCustomImg = document.getElementById("customImageBtn");
+buttonCustomImg.addEventListener("click", () => {
+  inputCustomImg.click();
+});
 
 const inputCustom = document.getElementById("customText");
 const buttonCustom = document.getElementById("submitCustomText");
@@ -149,19 +140,6 @@ buttonCustom.onclick = async () => {
     repaintImage();
   }
 };
-
-const inputCustomImg = document.getElementById("customImage");
-inputCustomImg.addEventListener("change", ev => {
-  ev.preventDefault();
-  if (ev.target.files.length <= 0) {
-    return;
-  }
-  setFile(ev.target.files[0]);
-});
-const buttonCustomImg = document.getElementById("customImageBtn");
-buttonCustomImg.addEventListener("click", () => {
-  inputCustomImg.click();
-});
 
 initFont();
 

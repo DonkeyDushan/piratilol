@@ -27,25 +27,30 @@
     <canvas id="picture" width="800" height="800"></canvas>
   </div>
   <div class="button-container">
-    <button id="randomize-img">
-      Náhodně vybrat obrázek
-    </button>
+    <div class="random-button-container">
+      <button id="randomize" class="random-button">
+        Náhodně vygenerovat
+      </button>
+      <div class="random-button-secondary-container">
+        <button id="randomize-img" class="random-button-secondary">
+          Jen obrázek
+        </button>
+        <button id="randomize-text" class="random-button-secondary">
+          Jen text
+        </button>
+      </div>
+    </div>
 
     <form action="#" style="display: none;">
       <input name="custom-image" id="customImage" type="file" accept="image/*" />
     </form>
-
     <button id="customImageBtn">
       Vložit vlastní obrázek
     </button>
 
-    <button id="randomize">
-      Náhodně vybrat text
-    </button>
-
     <div class="input-container">
-      <input class="custom-text" id="customText">
       <button id="submitCustomText">Vložit vlastní text</button>
+      <input id="customText">
     </div>
   </div>
   <a class="save" id="save">Uložit</a>
@@ -54,10 +59,12 @@
     <a href="https://twitter.com/donkeydushan" target="_blank" rel="noopener noreferrer">
       @donkeydushan
     </a>
+    •
+    <a href="https://github.com/DonkeyDushan/piratilol" target="_blank" rel="noopener noreferrer">GitHub</a>
   </div>
   <div class="bottom-text">
     <p>Můžete nám přispět na pivo a pomoci tak ke vzniku dalších kvalitních nápadů ❤ <br>
-    1028677544/6100</p>
+      1028677544/6100</p>
   </div>
   <script src="js/index.js" type="module"></script>
 </body>
