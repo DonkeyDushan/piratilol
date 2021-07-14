@@ -101,23 +101,23 @@ const repaintImage = async () => {
 };
 
 const buttonRandom = document.getElementById("randomize");
-buttonRandom.onclick = async () => {
+buttonRandom.addEventListener("click", async () => {
   rerollText();
   await rerollImage();
   repaintImage();
-};
+});
 
 const buttonRandomImg = document.getElementById("randomize-img");
-buttonRandomImg.onclick = async () => {
+buttonRandomImg.addEventListener("click", async () => {
   await rerollImage();
   repaintImage();
-};
+});
 
 const buttonRandomText = document.getElementById("randomize-text");
-buttonRandomText.onclick = () => {
+buttonRandomText.addEventListener("click", () => {
   rerollText();
   repaintImage();
-};
+});
 
 const inputCustomImg = document.getElementById("customImage");
 inputCustomImg.addEventListener("change", (e) => {
@@ -134,12 +134,12 @@ buttonCustomImg.addEventListener("click", () => {
 
 const inputCustom = document.getElementById("customText");
 const buttonCustom = document.getElementById("submitCustomText");
-buttonCustom.onclick = async () => {
+buttonCustom.addEventListener("click", async () => {
   if (inputCustom.value) {
     currentText = inputCustom.value;
     repaintImage();
   }
-};
+});
 
 initFont();
 
