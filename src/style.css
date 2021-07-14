@@ -26,6 +26,7 @@ a.save {
     background-color: #000000;
     border-style: hidden;
     text-decoration: none;
+    cursor: pointer;
 }
 
 a.save:hover {

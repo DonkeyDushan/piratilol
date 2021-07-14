@@ -92,12 +92,6 @@ const repaintImage = async () => {
     currentImage.addEventListener("load", () => repaintImage());
     currentImage.src = e.target.result;
   });
-
-  const linkSave = document.getElementById("save");
-  linkSave.setAttribute("download", "PirStanKampan.jpg");
-  setTimeout(() => {
-    linkSave.setAttribute("href", canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream"));
-  }, 500);
 };
 
 const buttonRandom = document.getElementById("randomize");
@@ -141,6 +135,15 @@ const replaceWithCustomText = async (e) => {
 };
 inputCustom.addEventListener("click", replaceWithCustomText);
 inputCustom.addEventListener("input", replaceWithCustomText);
+
+const downloadLinkReal = document.createElement("a");
+downloadLinkReal.setAttribute("download", "PirStanKampan.jpg");
+const linkSave = document.getElementById("save");
+linkSave.addEventListener("click", (e) => {
+  e.preventDefault();
+  downloadLinkReal.setAttribute("href", canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream"));
+  downloadLinkReal.click();
+});
 
 initFont();
 
