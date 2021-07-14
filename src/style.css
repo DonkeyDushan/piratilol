@@ -41,6 +41,7 @@ button {
     background-color: #b5c83e;
     border-style: hidden;
     text-decoration: none;
+    flex-shrink: 0;
 }
 
 button:hover:active {
@@ -68,17 +69,23 @@ button:hover {
 }
 
 input {
-    padding: 12px 20px;
-    height: 30px;
-    font-size: 20px;
+    font-family: "Bebas Neue";
+    height: 52px;
+    font-size: 30px;
     border-radius: 0;
-    border-style: hidden;
-    padding: auto;
-    padding: 20px 10px;
+    border-style: hidden;;
+    padding: 0 10px;
+    margin: 10px;
+    width: 100%;
 }
 
 input:focus {
     outline: 1px solid #bbb;
+}
+
+input::placeholder {
+    font-family: "Bebas Neue";
+    font-size: 30px;    
 }
 
 .title {
@@ -86,6 +93,21 @@ input:focus {
     font-size: 60px;
     margin: 10px;
     color: black;
+}
+
+.random-button-container {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+.random-button-secondary {
+    background-color: #ddd;
+}
+
+.random-button-secondary:hover {
+    background-color: #ccc;
+    border-color: #ccc;
 }
 
 .picture-container {
@@ -115,17 +137,9 @@ input:focus {
 
 .button-container {
     display: flex;
-    align-items: flex-end;
+    align-items: flex-start;
     justify-content: center;
-}
-
-.input-container {
-    display: flex;
-    flex-direction: column;
-}
-
-.custom-text {
-    margin: 0 10px;
+    width: 820px;
 }
 
 .divider {
@@ -134,12 +148,13 @@ input:focus {
     color: black;
 }
 
-.twitter {
+.contact {
     font-size: 18px;
+    margin-bottom: 10px;
 }
 
 .bottom-text {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: monospace;
     font-size: 14px;
     text-align: center;
     line-height: normal;
@@ -158,16 +173,35 @@ input:focus {
         flex-direction: column;
         align-items: center;
     }
+    .random-button-container {
+        width: 100%;
+        align-items: center;
+    }    
+    .random-button-secondary-container {
+        display: flex;
+        width: 100%;
+    }
+    .random-button-secondary {
+        margin-top: 0;
+    }
+    .random-button-secondary:first-child {
+        margin-left: 0;
+    }    
+    .random-button-secondary:nth-child(2) {
+        margin-right: 0;
+    }
     button {
         font-size: 20px;
         width: 100%;
     }
     input {
         width: 100%;
+        height: 40px;
+        margin-top: 0;
+        font-size: 20px;
     }
-    .input-container {
-        align-items: center;
-        width: 100%;
+    input::placeholder {
+        font-size: 20px;
     }
     a.save {
         font-size: 20px;
