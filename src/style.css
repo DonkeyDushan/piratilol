@@ -41,6 +41,7 @@ button {
     background-color: #b5c83e;
     border-style: hidden;
     text-decoration: none;
+    flex-shrink: 0;
 }
 
 button:hover:active {
@@ -54,16 +55,23 @@ button:hover {
 }
 
 input {
-    height: 50px;
-    font-size: 20px;
+    font-family: "Bebas Neue";
+    height: 52px;
+    font-size: 30px;
     border-radius: 0;
     border-style: hidden;;
-    padding: 20px 10px;
+    padding: 0 10px;
     margin: 10px;
+    width: 100%;
 }
 
 input:focus {
     outline: 1px solid #bbb;
+}
+
+input::placeholder {
+    font-family: "Bebas Neue";
+    font-size: 30px;    
 }
 
 .title {
@@ -76,10 +84,7 @@ input:focus {
 .random-button-container {
     display: flex;
     flex-direction: column;
-}
-
-.random-button {
-    
+    flex-shrink: 0;
 }
 
 .random-button-secondary {
@@ -120,11 +125,7 @@ input:focus {
     display: flex;
     align-items: flex-start;
     justify-content: center;
-}
-
-.input-container {
-    display: flex;
-    flex-direction: column;
+    width: 820px;
 }
 
 .divider {
@@ -133,12 +134,13 @@ input:focus {
     color: black;
 }
 
-.twitter {
+.contact {
     font-size: 18px;
+    margin-bottom: 10px;
 }
 
 .bottom-text {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: monospace;
     font-size: 14px;
     text-align: center;
     line-height: normal;
@@ -182,10 +184,10 @@ input:focus {
         width: 100%;
         height: 40px;
         margin-top: 0;
+        font-size: 20px;
     }
-    .input-container {
-        align-items: center;
-        width: 100%;
+    input::placeholder {
+        font-size: 20px;
     }
     a.save {
         font-size: 20px;

@@ -133,13 +133,14 @@ buttonCustomImg.addEventListener("click", () => {
 });
 
 const inputCustom = document.getElementById("customText");
-const buttonCustom = document.getElementById("submitCustomText");
-buttonCustom.addEventListener("click", async () => {
-  if (inputCustom.value) {
+const replaceWithCustomText = async (e) => {
+  if (e.type === "input" || inputCustom.value) {
     currentText = inputCustom.value;
     repaintImage();
   }
-});
+};
+inputCustom.addEventListener("click", replaceWithCustomText);
+inputCustom.addEventListener("input", replaceWithCustomText);
 
 initFont();
 
