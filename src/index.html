@@ -27,9 +27,22 @@
     <canvas id="picture" width="800" height="800"></canvas>
   </div>
   <div class="button-container">
+    <button id="randomize-img">
+      Náhodně vybrat obrázek
+    </button>
+
+    <form action="#" style="display: none;">
+      <input name="custom-image" id="customImage" type="file" accept="image/*" />
+    </form>
+
+    <button id="customImageBtn">
+      Vložit vlastní obrázek
+    </button>
+
     <button id="randomize">
       Náhodně vybrat text
     </button>
+
     <div class="input-container">
       <input class="custom-text" id="customText">
       <button id="submitCustomText">Vložit vlastní text</button>
