@@ -3,6 +3,19 @@ import { splitText, pickRandom } from "./helperFunctions.js";
 
 const unrolledGenerators = generators.flatMap(({ url, weight }) => Array(weight).fill(url));
 
+const getUnrolledGeneratorsWithKeywords = (keywords) => {
+  const out = [];
+
+  keywords.split(/, /).forEach((keyword) => {
+    generatorsWithKeywords.forEach((generator) => {
+      out.push({ url: generator.url.replace("[keyword]", keyword) });
+    });
+    out.push();
+  });
+
+  return out.flatMap(({ url, weight }) => Array(weight).fill(url));
+}
+
 const imageReader = new FileReader();
 const logo = new Image();
 logo.src = "public/logo.png";
@@ -63,21 +76,6 @@ canvas.addEventListener("drop", (e) => {
   setFile(e.dataTransfer.files[0]);
 });
 
-const unrolledGenerators = generators.flatMap(({ url, weight }) => Array(weight).fill(url));
-
-const getUnrolledGeneratorsWithKeywords = (keywords) => {
-  const out = [];
-
-  keywords.split(/, /).forEach((keyword) => {
-    generatorsWithKeywords.forEach((generator) => {
-      out.push({ url: generator.url.replace("[keyword]", keyword) });
-    });
-    out.push();
-  });
-
-  return out.flatMap(({ url, weight }) => Array(weight).fill(url));
-}
-
 const repaintImage = async () => {
   // clear to black (for transparent images)
   ctx.fillStyle = "black";
@@ -136,7 +134,7 @@ buttonRandomImg.addEventListener("click",async () => {
   repaintImage();
 });
 
-const buttonRandomText = document.getElementById("randomize-text");
+const buttonRandomText = document.getElementById("randomize");
 buttonRandomText.addEventListener("click", () => {
   rerollText();
   repaintImage();
