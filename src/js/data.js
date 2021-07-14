@@ -36,5 +36,3 @@ export const generators = [
   { url: "https://source.unsplash.com/800x800/?chicken", weight: 1 },
   { url: "https://source.unsplash.com/800x800/?angry", weight: 3 },
 ];
-
-export default claims;
