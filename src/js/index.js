@@ -94,9 +94,9 @@ const repaintImage = async () => {
   });
 
   const linkSave = document.getElementById("save");
-  linkSave.setAttribute("download", "PirStanKampan.png");
+  linkSave.setAttribute("download", "PirStanKampan.jpg");
   setTimeout(() => {
-    linkSave.setAttribute("href", canvas.toDataURL("image/png").replace("image/png", "image/octet-stream"));
+    linkSave.setAttribute("href", canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream"));
   }, 500);
 };
 
