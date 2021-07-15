@@ -8,11 +8,6 @@ const LUMINANCE_THRESHOLD = 0.7;
 const unrolledGenerators = generators.flatMap(({ url, weight }) => Array(weight).fill(url));
 
 const imageReader = new FileReader();
-imageReader.addEventListener("load", (e) => {
-  currentImage = new Image();
-  currentImage.addEventListener("load", () => repaintImage());
-  currentImage.src = e.target.result;
-});
 
 const logoLight = new Image();
 logoLight.src = "public/logo-light.png";
@@ -85,7 +80,9 @@ const repaintImage = async () => {
   ctx.setTransform(); // reset so that everything else is normal size
 
   // calculate luminance to decide whether the logo will be light or dark
-  const imgd = ctx.getImageData(LOGO_OFFSET_X, LOGO_OFFSET_Y, logoLight.width, logoLight.height).data;
+  const imgd = ctx
+    .getImageData(LOGO_OFFSET_X, LOGO_OFFSET_Y, logoLight.width, logoLight.height)
+    .data;
   const luminanceAverage = getAverageLuminance(imgd);
 
   if (luminanceAverage > LUMINANCE_THRESHOLD) { // make logo black if the top-right corner is bright
@@ -103,12 +100,19 @@ const repaintImage = async () => {
     const padding = 15;
     const lineHeight = padding + fontSize;
     ctx.fillStyle = "#f9dc4d";
-    ctx.fillRect(x, y - (index * lineHeight), ctx.measureText(line).width + 2 * padding, lineHeight);
+    ctx
+      .fillRect(x, y - (index * lineHeight), ctx.measureText(line).width + 2 * padding, lineHeight);
     ctx.textBaseline = "top";
     ctx.fillStyle = "black";
     ctx.fillText(line, x + padding, y + padding - (index * lineHeight));
   });
 };
+
+imageReader.addEventListener("load", (e) => {
+  currentImage = new Image();
+  currentImage.addEventListener("load", () => repaintImage());
+  currentImage.src = e.target.result;
+});
 
 const buttonRandom = document.getElementById("randomize");
 buttonRandom.addEventListener("click", async () => {
