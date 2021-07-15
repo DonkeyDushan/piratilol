@@ -13,3 +13,26 @@ export const splitText = (text, maxLineLength) => {
 };
 
 export const pickRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+export const luminanceOf = (r, g, b) => (0.2126 * r) + (0.7152 * g) + (0.0722 * b);
+
+export const getAverageLuminance = (rgbData, pixelSkip) => {
+  pixelSkip = pixelSkip ?? 6;
+  let luminanceSum = 0;
+  let luminanceDivisor = 0;
+  for (let i = 0; i < rgbData.length; i += 3 * pixelSkip) {
+    // +3 for R+G+B; *pixelSkip because we don't need that many samples => less accurate, but faster!
+    
+    let r = rgbData[i    ] / 255;
+    let g = rgbData[i + 1] / 255;
+    let b = rgbData[i + 2] / 255;
+
+    const luminance = luminanceOf(r, g, b);
+    if (!isNaN(luminance)) {
+      luminanceSum += luminance;
+      luminanceDivisor++;
+    }
+  }
+
+  return luminanceSum / luminanceDivisor;
+};
