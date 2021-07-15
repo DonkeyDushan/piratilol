@@ -1,6 +1,10 @@
 import { claims, generators } from "./data.js";
 import { splitText, pickRandom } from "./helperFunctions.js";
 
+const LOGO_OFFSET_X = 525;
+const LOGO_OFFSET_Y = 20;
+const LUMINANCE_THRESHOLD = 0.7;
+
 const unrolledGenerators = generators.flatMap(({ url, weight }) => Array(weight).fill(url));
 
 const imageReader = new FileReader();
@@ -10,8 +14,12 @@ imageReader.addEventListener("load", (e) => {
   currentImage.src = e.target.result;
 });
 
-const logo = new Image();
-logo.src = "public/logo.png";
+const logoLight = new Image();
+logoLight.src = "public/logo-light.png";
+
+const logoDark = new Image();
+logoDark.src = "public/logo-dark.png";
+
 let currentImage = new Image();
 let currentText = "Test text";
 
@@ -74,9 +82,32 @@ const repaintImage = async () => {
   const scale = Math.max(scaleX, scaleY);
   ctx.setTransform(scale, 0, 0, scale, 0, 0);
   ctx.drawImage(currentImage, 0, 0);
-
   ctx.setTransform(); // reset so that everything else is normal size
-  ctx.drawImage(logo, 525, 20);
+
+  // calculate luminance to decide whether the logo will be light or dark
+  const imgd = ctx.getImageData(LOGO_OFFSET_X, LOGO_OFFSET_Y, logoLight.width, logoLight.height).data;
+  let luminanceSum = 0;
+  let luminanceDivisor = 0;
+  for (let i = 0; i < imgd.length; i += 3 * 6) {
+    // +3 for R+G+B; *6 to skip pixels because we don't need that many samples => less accurate, but faster!
+    
+    let r = imgd[i    ] / 255;
+    let g = imgd[i + 1] / 255;
+    let b = imgd[i + 2] / 255;
+
+    const luminance = (0.2126 * r) + (0.7152 * g) + (0.0722 * b);
+    if (!isNaN(luminance)) {
+      luminanceSum += luminance;
+      luminanceDivisor++;
+    }
+  }
+  const luminanceAverage = luminanceSum / luminanceDivisor;
+
+  if (luminanceAverage > LUMINANCE_THRESHOLD) { // make logo black if the top-right corner is bright
+    ctx.drawImage(logoDark, LOGO_OFFSET_X, LOGO_OFFSET_Y);
+  } else {
+    ctx.drawImage(logoLight, LOGO_OFFSET_X, LOGO_OFFSET_Y);
+  }
 
   const lines = splitText(currentText, 20).reverse();
   const fontSize = lines.length < 5 ? 60 : 40;
