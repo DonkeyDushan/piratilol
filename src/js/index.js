@@ -1,5 +1,5 @@
 import { claims, generators } from "./data.js";
-import { splitText, pickRandom } from "./helperFunctions.js";
+import { splitText, pickRandom, getAverageLuminance } from "./helperFunctions.js";
 
 const LOGO_OFFSET_X = 525;
 const LOGO_OFFSET_Y = 20;
@@ -86,22 +86,7 @@ const repaintImage = async () => {
 
   // calculate luminance to decide whether the logo will be light or dark
   const imgd = ctx.getImageData(LOGO_OFFSET_X, LOGO_OFFSET_Y, logoLight.width, logoLight.height).data;
-  let luminanceSum = 0;
-  let luminanceDivisor = 0;
-  for (let i = 0; i < imgd.length; i += 3 * 6) {
-    // +3 for R+G+B; *6 to skip pixels because we don't need that many samples => less accurate, but faster!
-    
-    let r = imgd[i    ] / 255;
-    let g = imgd[i + 1] / 255;
-    let b = imgd[i + 2] / 255;
-
-    const luminance = (0.2126 * r) + (0.7152 * g) + (0.0722 * b);
-    if (!isNaN(luminance)) {
-      luminanceSum += luminance;
-      luminanceDivisor++;
-    }
-  }
-  const luminanceAverage = luminanceSum / luminanceDivisor;
+  const luminanceAverage = getAverageLuminance(imgd);
 
   if (luminanceAverage > LUMINANCE_THRESHOLD) { // make logo black if the top-right corner is bright
     ctx.drawImage(logoDark, LOGO_OFFSET_X, LOGO_OFFSET_Y);
