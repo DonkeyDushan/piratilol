@@ -4,6 +4,12 @@ import { splitText, pickRandom } from "./helperFunctions.js";
 const unrolledGenerators = generators.flatMap(({ url, weight }) => Array(weight).fill(url));
 
 const imageReader = new FileReader();
+imageReader.addEventListener("load", (e) => {
+  currentImage = new Image();
+  currentImage.addEventListener("load", () => repaintImage());
+  currentImage.src = e.target.result;
+});
+
 const logo = new Image();
 logo.src = "public/logo.png";
 let currentImage = new Image();
@@ -85,12 +91,6 @@ const repaintImage = async () => {
     ctx.textBaseline = "top";
     ctx.fillStyle = "black";
     ctx.fillText(line, x + padding, y + padding - (index * lineHeight));
-  });
-
-  imageReader.addEventListener("load", (e) => {
-    currentImage = new Image();
-    currentImage.addEventListener("load", () => repaintImage());
-    currentImage.src = e.target.result;
   });
 };
 
